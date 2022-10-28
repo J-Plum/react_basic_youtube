@@ -9,12 +9,22 @@ class Youtube {
 
    mostPopular() {
       return fetch(
-         `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&contentDetails=contentDetails&key=${this.key}`,
+         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q='르세라핌'&type=video&key=${this.key}`,
          this.getRequestOptions
       )
          .then((response) => response.json())
-         .then((result) => result.items);
+         .then((result) =>
+            result.items.map((item) => ({ ...item, id: item.id.videoId }))
+         );
    }
+   // mostPopular() {
+   //    return fetch(
+   //       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&contentDetails=contentDetails&key=${this.key}`,
+   //       this.getRequestOptions
+   //    )
+   //       .then((response) => response.json())
+   //       .then((result) => result.items);
+   // }
 
    search(query) {
       return fetch(
@@ -25,6 +35,15 @@ class Youtube {
          .then((result) =>
             result.items.map((item) => ({ ...item, id: item.id.videoId }))
          );
+   }
+
+   comment(videoId) {
+      return fetch(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&maxResults=5&videoId=${videoId}&key=${this.key}`, this.getRequestOptions)
+         .then((response) => response.json())
+         .then((result) =>
+            result.items.map((item) =>
+               ({ ...item, snippet: item.snippet.topLevelComment.snippet })
+            ));
    }
 }
 

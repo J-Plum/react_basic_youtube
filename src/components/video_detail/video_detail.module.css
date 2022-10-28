@@ -1,7 +1,16 @@
-.detail{
+li {
+   list-style: none;
+}
+
+.detail {
    padding: 0.2em;
 }
 
-.description{
+.description {
+   margin: 5px;
+   padding: 10px;
    white-space: pre-wrap;
+   border: 1px solid rgb(248, 247, 247);
+   border-radius: 10px;
+   background-color: rgb(248, 247, 247);
 }

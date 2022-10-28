@@ -6,19 +6,20 @@ import VideoList from "./components/video_list/video_list";
 
 function App({ youtube }) {
    const [videos, setVideos] = useState([]);
-   const [selectedVideo, setSelectVideo] = useState(null);
+   // selectedVideo  = 선택한 video의 자료가 들어가있음.
+   const [selectedVideo, setSelectedVideo] = useState(null);
 
    const selectVideo = (video) => {
-      setSelectVideo(video);
+      setSelectedVideo(video);
    };
 
    const search = (query) => {
-      
       youtube
-      .search(query) //
-      .then((videos) => {
-         setSelectVideo(null);
-         setVideos(videos);
+         .search(query) //
+         .then((videos) => {
+            // console.log(videos);
+            setSelectedVideo(null);
+            setVideos(videos);
          });
    };
 
@@ -35,7 +36,10 @@ function App({ youtube }) {
          <section className={styles.content}>
             {selectedVideo && (
                <div className={styles.detail}>
-                  <VideoDetail video={selectedVideo} />
+                  <VideoDetail
+                     video={selectedVideo}
+                     youtube={youtube}
+                  />
                </div>
             )}
             <div className={styles.list}>
