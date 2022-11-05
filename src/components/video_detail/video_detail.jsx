@@ -10,7 +10,7 @@ const VideoDetail = ({ video, video: { snippet }, youtube }) => {
       youtube
          .comment(video.id)
          .then(items => {
-            console.log(items)
+            // console.log(items)
             setCommnets(items)
          });
    }, [video]);
@@ -21,7 +21,8 @@ const VideoDetail = ({ video, video: { snippet }, youtube }) => {
             <iframe
                className={styles.video}
                type="text/html"
-               width="900px"
+               title="youtube video player"
+               width="100%"
                height="500px"
                src={`https://www.youtube.com/embed/${video.id}`}
                frameBorder="0"
@@ -33,7 +34,10 @@ const VideoDetail = ({ video, video: { snippet }, youtube }) => {
                <pre>{snippet.description}</pre>
             </div>
             <ul>
-               {comments.map((item) => <VideoComment item={item} />)}
+               <hr />
+               <h3>comment</h3>
+               {comments.map((item) => <VideoComment key={item.id} item={item} />)}
+               <hr />
             </ul>
          </section>
 

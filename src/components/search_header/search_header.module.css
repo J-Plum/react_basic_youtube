@@ -1,4 +1,4 @@
-.header{
+.header {
    display: flex;
    height: 4rem;
    padding: 0.8em 1em;
@@ -6,29 +6,29 @@
    color: white;
 }
 
-.logo{
+.logo {
    display: flex;
    align-items: center;
    margin-right: 1em;
 }
 
-.input{
+.input {
    flex-basis: 100%;
    font-size: 1.2rem;
    outline: 0;
 }
 
-.button{
+.button {
    background-color: darkgray;
    outline: 0;
    transition: transform all ease-in;
 }
 
-.button:hover{
+.button:hover {
    transform: scale(1.02);
 }
 
-.buttonImg{ 
+.buttonImg {
    height: 100%;
    padding: 0.5em 0.2em;
 }

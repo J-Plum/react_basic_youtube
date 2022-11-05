@@ -1,50 +1,47 @@
 class Youtube {
-   constructor(key) {
-      this.key = key;
-      this.getRequestOptions = {
-         method: "GET",
-         redirect: "follow",
-      };
+   constructor(httpClient) {
+      this.Youtube = httpClient;
    }
 
-   mostPopular() {
-      return fetch(
-         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q='르세라핌'&type=video&key=${this.key}`,
-         this.getRequestOptions
-      )
-         .then((response) => response.json())
-         .then((result) =>
-            result.items.map((item) => ({ ...item, id: item.id.videoId }))
-         );
-   }
-   // mostPopular() {
-   //    return fetch(
-   //       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&contentDetails=contentDetails&key=${this.key}`,
-   //       this.getRequestOptions
-   //    )
-   //       .then((response) => response.json())
-   //       .then((result) => result.items);
-   // }
 
-   search(query) {
-      return fetch(
-         `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&type=video&key=${this.key}`,
-         this.getRequestOptions
-      )
-         .then((response) => response.json())
-         .then((result) =>
-            result.items.map((item) => ({ ...item, id: item.id.videoId }))
-         );
+   async mostPopular() {
+      const response = await this.Youtube.get('videos', {
+         params: {
+            part: 'snippet',
+            chart: 'mostPopular',
+            maxResults: 20,
+         }
+      });
+      console.log(response.data.items);
+      return response.data.items;
    }
 
-   comment(videoId) {
-      return fetch(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&maxResults=5&videoId=${videoId}&key=${this.key}`, this.getRequestOptions)
-         .then((response) => response.json())
-         .then((result) =>
-            result.items.map((item) =>
-               ({ ...item, snippet: item.snippet.topLevelComment.snippet })
-            ));
+   async search(query) {
+      const response = await this.Youtube.get('search', {
+         params: {
+            part: 'snippet',
+            maxResults: 20,
+            type: 'video',
+            q: query,
+         }
+      });
+      console.log(response.data.items.map(item => ({ ...item, id: item.id.videoId })))
+      return response.data.items.map(item => ({ ...item, id: item.id.videoId }));
    }
+
+   async comment(_videoId) {
+      const response = await this.Youtube.get('commentThreads', {
+         params: {
+            part: 'snippet',
+            order: 'relevance',
+            maxResults: 15,
+            videoId: _videoId,
+         }
+      });
+      console.log(response);
+      return response.data.items.map((item) => ({ ...item, snippet: item.snippet.topLevelComment.snippet }));
+   }
+
 }
 
 export default Youtube;

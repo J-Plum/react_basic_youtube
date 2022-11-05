@@ -23,5 +23,5 @@ ul {
 
 .userDescription {
    margin: 5px;
-   white-space: pre-wrap;
+   word-break: break-all;
 }

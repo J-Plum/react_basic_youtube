@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useCallback } from "react";
 import styles from "./App.module.css";
 import SearchHeader from "./components/search_header/search_header";
 import VideoDetail from "./components/video_detail/video_detail";
@@ -9,26 +10,34 @@ function App({ youtube }) {
    // selectedVideo  = 선택한 video의 자료가 들어가있음.
    const [selectedVideo, setSelectedVideo] = useState(null);
 
-   const selectVideo = (video) => {
-      setSelectedVideo(video);
-   };
+   const scrollMove = () => {
+      window.scrollTo({
+         top: 0,
+         left: 0,
+      })
+   }
 
-   const search = (query) => {
-      youtube
-         .search(query) //
-         .then((videos) => {
-            // console.log(videos);
-            setSelectedVideo(null);
-            setVideos(videos);
-         });
-   };
+   const selectVideo = useCallback((video) => {
+      setSelectedVideo(video);
+   }, []);
+
+   const search = useCallback(
+      (query) => {
+         youtube
+            .search(query) //
+            .then((videos) => {
+               // console.log(videos);
+               setSelectedVideo(null);
+               setVideos(videos);
+            });
+      }, [youtube]);
 
    useEffect(() => {
       youtube
          .mostPopular() //
          // .then((videos) => console.log(videos))
          .then((videos) => setVideos(videos));
-   }, []);
+   }, [youtube]);
 
    return (
       <div className={styles.app}>
@@ -45,6 +54,7 @@ function App({ youtube }) {
             <div className={styles.list}>
                <VideoList
                   videos={videos}
+                  scroll={scrollMove}
                   onVideoClick={selectVideo}
                   display={selectedVideo ? "list" : "grid"}
                />

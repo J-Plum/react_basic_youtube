@@ -4,6 +4,8 @@ li {
 
 .detail {
    padding: 0.2em;
+   max-width: 858px;
+
 }
 
 .description {
@@ -13,4 +15,20 @@ li {
    border: 1px solid rgb(248, 247, 247);
    border-radius: 10px;
    background-color: rgb(248, 247, 247);
+   word-break: break-all;
+}
+
+#text {
+   white-space: pre-wrap;
+}
+
+pre {
+   white-space: pre-wrap;
+}
+
+hr {
+   position: relative;
+   margin-top: 40px;
+   width: 100%;
+   border-bottom: 1px solid rgb(248, 247, 247);
 }
